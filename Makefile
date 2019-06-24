@@ -5,4 +5,4 @@ build:
 	# python
 
 package:
-	docker build &{objects}:&{version} .
+	docker build $(objects}):$(version) .
