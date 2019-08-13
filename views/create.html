@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>创建项目</title>
+</head>
+
+<body>
+    <textarea name="content" id="editor"></textarea>
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="submit">提交</button>
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#editor'))
+            .then(newEditor => {
+                editor = newEditor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
+        document.querySelector('#submit').addEventListener('click', () => {
+            const editorData = editor.getData();
+            console.log(editorData)
+            // ...
+        });
+    </script>
+
+</body>
+
+</html>
