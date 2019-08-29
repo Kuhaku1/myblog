@@ -1,7 +1,10 @@
 PROJECT	=	myblog
-PROJECT	=	myblog
-
+REGISTRY = registry.cn-qingdao.aliyuncs.com/eveisgd
 VERSION	=	1.1.0
+
+run:
+	@echo ====================run====================
+	go run .
 
 build:
 	@echo ====================build====================
@@ -10,6 +13,12 @@ build:
 package:build
 	@echo ====================package====================
 	docker build -t $(PROJECT):$(VERSION) .
+
+
+publish: package
+	@echo ====================publish====================
+	docker tag $(PROJECT):$(VERSION) $(REGISTRY)/$(PROJECT):$(VERSION)
+	docker push $(REGISTRY)/$(PROJECT):$(VERSION)
 
 clean:
 	rm -r ./myblog

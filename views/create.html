@@ -5,14 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.ckeditor.com/ckeditor5/12.3.1/classic/ckeditor.js"></script>
+
+    <script src="https://unpkg.com/wangeditor@3.1.1/release/wangEditor.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <title>创建项目</title>
+
+    <link rel="stylesheet" href="/static/css/editorstyle.css">
 </head>
 
 <body>
-    <textarea name="content" id="editor"></textarea>
+    <!-- <textarea name="content" id="editor"></textarea>
     <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="submit">提交</button>
     <script>
         ClassicEditor
@@ -29,8 +35,113 @@
             console.log(editorData)
             // ...
         });
-    </script>
+    </script> -->
+    <form>
+        <div class="form-group row">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">账号</label>
+            <div class="col-sm-10">
+                <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">密码</label>
+            <div class="col-sm-10">
+                <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+            </div>
+        </div>
+        <fieldset class="form-group">
+            <div class="row">
+                <legend class="col-form-label col-sm-2 pt-0">类型</legend>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="python"
+                            checked>
+                        <label class="form-check-label" for="gridRadios1">
+                            python
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="golang">
+                        <label class="form-check-label" for="gridRadios2">
+                            golang
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="other"
+                            disabled>
+                        <label class="form-check-label" for="gridRadios3">
+                            杂谈
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
 
+        <div class="form-group row">
+            <label for="inputTopic" class="col-sm-2 col-form-label">标题</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputTopic">
+            </div>
+        </div>
+
+        <div id="editor">
+            <p>开始写作</p>
+            <p>开始写作</p>
+            <pre><code>def test:<br>    pass</code></pre>
+            <p><br></p>
+        </div>
+
+        <button class="btn btn-outline-success my-2 my-sm-0" type="button" id="submit">提交</button>
+
+    </form>
+
+    <!-- 注意， 只需要引用 JS，无需引用任何 CSS ！！！-->
+    <script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        // 或者 var editor = new E( document.getElementById('editor') )
+
+        editor.create()
+        // editor.$textElem.attr('contenteditable', false)
+    </script>
+    <script type="text/javascript">
+        document.querySelector('#submit').addEventListener('click', () => {
+            const editorData = editor.txt.html();
+            // console.log(editorData);
+
+            inputTopic = document.getElementById("inputTopic");
+
+            gridRadios = document.getElementsByName("gridRadios");
+            checkedradios = ""
+            for (var i = 0; i < gridRadios.length; i++) {
+                if (gridRadios[i].checked) {
+                    checkedradios = gridRadios[i].value;
+                }
+            }
+
+            datajson = {
+                topic: inputTopic.value,
+                type: checkedradios,
+                value: editorData
+            };
+            console.log(datajson);
+
+            $.ajax({
+                url: "/save",
+                type: "POST",
+                data: JSON.stringify(datajson),
+                contentType: "application/json",
+                success: function (result) {
+                    if (result != "ok") {
+                        alert("error");
+                    } else {
+                        alert("ok");
+                    }
+                    console.log(result)
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

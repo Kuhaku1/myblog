@@ -4,16 +4,18 @@ import (
 	"fmt"
 	"myblog/models"
 
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
+
+	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 )
 
-type MainController struct {
+type ShowController struct {
 	beego.Controller
 }
 
-func (this *MainController) Get() {
+func (this *ShowController) Get() {
+
 	typearticle := this.GetString("type", "other")
 	logs.Debug(typearticle)
 	o := orm.NewOrm()
@@ -26,5 +28,4 @@ func (this *MainController) Get() {
 	}
 	this.TplName = "showlist.html"
 	this.Data["articles"] = articles
-
 }
