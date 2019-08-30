@@ -24,7 +24,9 @@
     <div>
         <ul class="list-group list-group-flush">
             {{range .articles}}
-            <li class="list-group-item">{{.Title}}</li>
+            <a href="/detail/{{.Id}}">
+                <li class="list-group-item">{{.Title}}</li>
+            </a>
             {{end}}
         </ul>
     </div>
