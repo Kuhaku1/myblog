@@ -22,7 +22,7 @@ func (this *ShowController) Get() {
 	article := new(models.Article)
 	qs := o.QueryTable(article) // 返回 QuerySeter
 	var articles []*models.Article
-	qs.Filter("Category", typearticle).Limit(10).All(&articles)
+	qs.Filter("Category", typearticle).All(&articles)
 	for _, v := range articles {
 		fmt.Println(*v)
 	}
